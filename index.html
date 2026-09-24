@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Think Quest: Team Terminal</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Security Violation Overlay -->
+    <div id="security-screen" class="screen hidden security-overlay">
+        <div class="security-content">
+            <h1>SECURITY VIOLATION</h1>
+            <p>Tab switching, losing window focus, or developer tools detected.</p>
+            <p><strong>CALL A PROCTOR IMMEDIATELY.</strong></p>
+            <button id="btn-proctor-clear" class="hidden-proctor-btn"></button>
+        </div>
+    </div>
+
+    <!-- Upgraded Protest Overlay -->
+    <div id="protest-screen" class="screen hidden security-overlay" style="background: var(--warning-yellow);">
+        <div class="security-content" style="color: var(--bg-primary); max-width: 900px; width: 95%; padding: 3rem; border-radius: 12px; border: 5px solid var(--bg-primary);">
+            <h1 style="color: var(--bg-primary); border-bottom: 4px solid var(--bg-primary); padding-bottom: 1rem; margin-bottom: 2rem;">PROTEST RAISED</h1>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; margin-bottom: 2rem;">
+                <div style="flex: 1; min-width: 250px; background: white; padding: 1.5rem; border-radius: 8px; border: 4px solid var(--bg-primary);">
+                    <h3 style="color: var(--bg-primary); margin-bottom: 1rem; text-transform: uppercase;">Team's Answer</h3>
+                    <p id="protest-team-ans" style="font-size: 2rem; font-weight: bold; color: var(--critical-red);"></p>
+                </div>
+                <div style="flex: 1; min-width: 250px; background: white; padding: 1.5rem; border-radius: 8px; border: 4px solid var(--bg-primary);">
+                    <h3 style="color: var(--bg-primary); margin-bottom: 1rem; text-transform: uppercase;">Official Answer</h3>
+                    <p id="protest-official-ans" style="font-size: 2rem; font-weight: bold; color: var(--correct-green);"></p>
+                </div>
+            </div>
+
+            <p style="color: var(--bg-primary); font-size: 1.8rem; font-weight: bold; margin-bottom: 0.5rem;">Please raise your hand and wait for a Proctor.</p>
+            <p style="color: var(--bg-primary); font-size: 1.2rem; margin-bottom: 2rem;">Do not touch the keyboard or mouse.</p>
+            
+            <div style="display: flex; gap: 1rem; justify-content: center;">
+                <button class="btn-primary btn-large" id="btn-resolve-protest" style="border: 3px solid var(--bg-primary);">Proctor: Resolve</button>
+                <button class="btn-secondary btn-large" id="btn-cancel-protest" style="border: 3px solid var(--bg-primary); background: transparent; color: var(--bg-primary);">Cancel Protest</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Screen -->
+    <section id="login-screen" class="screen active">
+        <div class="center-container">
+            <h1 class="main-title">Think Quest</h1>
+            <h2 class="sub-title">Contestant Terminal</h2>
+            <div class="form-group">
+                <label for="team-select">Select Your Team:</label>
+                <select id="team-select" class="large-input">
+                    <option value="" disabled selected>-- Choose Team --</option>
+                    <option value="HRS 1C">HRS 1C</option>
+                    <option value="PPG">PPG</option>
+                    <option value="KFC">KFC</option>
+                    <option value="PBB">PBB</option>
+                    <option value="TRIPLE J">TRIPLE J</option>
+                    <option value="TM1">TM1</option>
+                    <option value="ERROR404">ERROR404</option>
+                </select>
+            </div>
+            <button class="btn-primary btn-large" id="btn-login">Enter Competition</button>
+        </div>
+    </section>
+
+    <!-- Lobby Screen -->
+    <section id="lobby-screen" class="screen">
+        <div class="center-container">
+            <h2 class="team-display">Team: <span id="lobby-team-name"></span></h2>
+            <h3>Waiting for Quiz Master...</h3>
+            
+            <div class="menu-grid mt-2">
+                <button class="btn-secondary" data-action="start-round" data-round="trial">Join Trial Questions</button>
+                <button class="btn-primary" data-action="start-round" data-round="round1">Join Round 1: Once and For All</button>
+                <button class="btn-primary" data-action="start-round" data-round="round2">Join Round 2: Double the Fun</button>
+                <button class="btn-primary" data-action="start-round" data-round="round3">Join Round 3: Triple Treat</button>
+                <button class="btn-warning" data-action="start-round" data-round="tieBreakers">Join Tie-Breakers</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Question Screen -->
+    <section id="question-screen" class="screen">
+        <header class="question-header">
+            <div class="header-left">
+                <span id="q-team-name" class="badge team-badge"></span>
+                <span id="display-round-name" class="badge"></span>
+            </div>
+            <div class="header-right">
+                <span id="display-progress" class="badge"></span>
+                <span id="display-points" class="badge pts-badge"></span>
+            </div>
+        </header>
+
+        <div class="question-content">
+            
+            <div id="ready-section" class="ready-box">
+                <h2 id="ready-q-num"></h2>
+                <p>Wait for the Quiz Master's signal.</p>
+                <button class="btn-primary btn-large mt-2" id="btn-start-question">Start Question</button>
+            </div>
+
+            <div id="active-question-section" class="hidden">
+                <h2 id="display-question-text" class="question-text"></h2>
+                
+                <div id="options-container" class="options-grid">
+                    <button class="mc-option" data-opt="A"><span class="opt-label">A</span> <span id="opt-text-A"></span></button>
+                    <button class="mc-option" data-opt="B"><span class="opt-label">B</span> <span id="opt-text-B"></span></button>
+                    <button class="mc-option" data-opt="C"><span class="opt-label">C</span> <span id="opt-text-C"></span></button>
+                    <button class="mc-option" data-opt="D"><span class="opt-label">D</span> <span id="opt-text-D"></span></button>
+                </div>
+
+                <div id="identification-container" class="id-container hidden">
+                    <input type="text" id="id-answer-input" class="large-input text-center" placeholder="Type your answer here..." autocomplete="off" spellcheck="false">
+                    <p class="input-hint">Press Enter to lock in your answer.</p>
+                </div>
+
+                <div id="question-result-section" class="hidden">
+                    <h3 id="q-result-message"></h3>
+                    <p id="q-result-correct-ans"></p>
+                    <p id="q-result-explanation"></p>
+                    
+                    <div class="action-buttons mt-2">
+                        <button class="btn-primary" id="btn-accept-result">Accept Result</button>
+                        <button class="btn-danger" id="btn-protest-result">Protest</button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="timer-section">
+            <div class="progress-bar-container"><div id="timer-progress" class="progress-bar"></div></div>
+            <div id="display-timer" class="timer-display">00</div>
+            <div id="timer-status" class="timer-status">Waiting...</div>
+        </div>
+    </section>
+
+    <!-- Score Screen -->
+    <section id="score-screen" class="screen">
+        <div class="score-container">
+            <h1>ROUND COMPLETED</h1>
+            <h2 id="score-team-name" class="massive-team"></h2>
+            
+            <div class="score-box">
+                <span id="score-points" class="massive-score"></span>
+                <span class="score-label">TOTAL POINTS</span>
+                <p id="score-breakdown"></p>
+            </div>
+            
+            <div class="review-section mt-2">
+                <h3>Answer Review Log</h3>
+                <div class="table-responsive">
+                    <table id="review-table">
+                        <thead>
+                            <tr>
+                                <th>Q#</th>
+                                <th>Your Answer</th>
+                                <th>Correct Answer</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody id="review-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Score Actions Container -->
+            <div class="score-actions">
+                <button class="btn-primary" id="btn-download-scores">Download Scoresheet (.txt)</button>
+                <button class="btn-secondary" id="btn-return-lobby">Return to Lobby</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="js/questions.sample.js"></script>
+    <script src="js/questions.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
