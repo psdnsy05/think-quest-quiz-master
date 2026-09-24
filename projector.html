@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Think Quest: Projector Display</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="projector-mode">
+    
+    <!-- Home Screen -->
+    <section id="proj-home" class="screen active">
+        <div class="center-container">
+            <h1 class="main-title" style="font-size: 6rem;">Think Quest</h1>
+            <h2 class="sub-title" style="font-size: 3rem;">Main Projector Display</h2>
+            
+            <div class="menu-grid mt-2">
+                <button class="btn-secondary" data-action="proj-round" data-round="trial">Trial Questions</button>
+                <button class="btn-primary" data-action="proj-round" data-round="round1">Round 1: Once and For All</button>
+                <button class="btn-primary" data-action="proj-round" data-round="round2">Round 2: Double the Fun</button>
+                <button class="btn-primary" data-action="proj-round" data-round="round3">Round 3: Triple Treat</button>
+                <button class="btn-warning" data-action="proj-round" data-round="tieBreakers">Tie-Breakers</button>
+            </div>
+            <p style="margin-top: 3rem; color: var(--text-muted);">Press <strong>F</strong> for Fullscreen</p>
+        </div>
+    </section>
+
+    <!-- Question Screen -->
+    <section id="proj-question" class="screen">
+        <header class="question-header">
+            <div class="header-left">
+                <h3 class="header-title">Think Quest</h3>
+                <span id="proj-round-name" class="badge"></span>
+            </div>
+            <div class="header-right">
+                <span id="proj-progress" class="badge"></span>
+                <span id="proj-points" class="badge pts-badge"></span>
+            </div>
+        </header>
+
+        <div class="question-content">
+            <h2 id="proj-question-text" class="question-text" style="font-size: 4rem;"></h2>
+            
+            <!-- MCQ Options -->
+            <div id="proj-options-container" class="options-grid">
+                <div class="proj-option" id="proj-opt-A"><span class="opt-label">A</span> <span class="opt-text"></span></div>
+                <div class="proj-option" id="proj-opt-B"><span class="opt-label">B</span> <span class="opt-text"></span></div>
+                <div class="proj-option" id="proj-opt-C"><span class="opt-label">C</span> <span class="opt-text"></span></div>
+                <div class="proj-option" id="proj-opt-D"><span class="opt-label">D</span> <span class="opt-text"></span></div>
+            </div>
+
+            <!-- Answer & Explanation Reveal -->
+            <div id="proj-reveal-container" class="hidden" style="margin-top: 2rem; width: 100%;">
+                <h3 style="color: var(--correct-green); font-size: 2.5rem; text-transform: uppercase;">Correct Answer:</h3>
+                <p id="proj-correct-ans" style="font-size: 3.5rem; font-weight: bold; background: white; color: var(--bg-primary); padding: 1rem; border-radius: 8px; display: inline-block; margin-bottom: 2rem;"></p>
+                <div style="background: var(--bg-panel); padding: 2rem; border-left: 8px solid var(--accent-gold); border-radius: 8px; text-align: left; max-width: 1000px; margin: 0 auto;">
+                    <h4 style="color: var(--accent-gold); font-size: 1.5rem; margin-bottom: 1rem;">Explanation:</h4>
+                    <p id="proj-explanation" style="font-size: 1.8rem; line-height: 1.4;"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="timer-section" id="proj-timer-wrapper">
+            <div class="progress-bar-container" style="max-width: 1000px; height: 20px;"><div id="proj-timer-progress" class="progress-bar"></div></div>
+            <div id="proj-timer-display" class="timer-display" style="font-size: 10rem;">00</div>
+        </div>
+
+        <!-- Subtle Controls (Fades out when not hovering) -->
+        <div class="projector-controls">
+            <button class="btn-secondary" id="btn-proj-home">Home</button>
+            <button class="btn-secondary" id="btn-proj-prev">◄ Prev</button>
+            <button class="btn-primary" id="btn-proj-timer">Start Timer (Space)</button>
+            <button class="btn-warning" id="btn-proj-reveal">Reveal Answer (A)</button>
+            <button class="btn-secondary" id="btn-proj-next">Next ►</button>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="js/questions.sample.js"></script>
+    <script src="js/questions.js"></script>
+    <script src="js/projector.js"></script>
+</body>
+</html>
