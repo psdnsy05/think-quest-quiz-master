@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Think Quest: Projector Display</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="projector-mode">
+    
+    <!-- Home / Menu Screen -->
+    <section id="proj-home" class="screen active">
+        <div class="center-container" style="text-align: center; padding-top: 5rem;">
+            <h1 class="main-title" style="font-size: 5rem; margin-bottom: 1rem;">THINK QUEST</h1>
+            <p class="sub-title" style="font-size: 2rem; color: var(--accent-gold); margin-bottom: 3rem;">Quiz Master Command Center</p>
+            
+            <div class="menu-grid" style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; max-width: 900px; margin: 0 auto;">
+                <button class="btn-primary" data-action="proj-round" data-round="trial" style="font-size: 1.5rem; padding: 1.5rem 2.5rem;">Trial Questions</button>
+                <button class="btn-primary" data-action="proj-round" data-round="round1" style="font-size: 1.5rem; padding: 1.5rem 2.5rem;">Round 1 (1pt)</button>
+                <button class="btn-primary" data-action="proj-round" data-round="round2" style="font-size: 1.5rem; padding: 1.5rem 2.5rem;">Round 2 (2pts)</button>
+                <button class="btn-primary" data-action="proj-round" data-round="round3" style="font-size: 1.5rem; padding: 1.5rem 2.5rem;">Round 3 (3pts)</button>
+                <button class="btn-primary" data-action="proj-round" data-round="tieBreakers" style="font-size: 1.5rem; padding: 1.5rem 2.5rem;">Tie-Breakers</button>
+                <button class="btn-warning" id="btn-menu-standings" style="font-size: 1.5rem; padding: 1.5rem 2.5rem; background: var(--accent-gold); color: var(--bg-primary); width: 100%; margin-top: 1rem;">View Overall Standings / Leaderboard</button>
+                 <!-- Management Buttons -->
+                    <button class="btn-secondary" id="btn-menu-adjust" style="flex: 1; font-size: 1.2rem; padding: 1rem; background: var(--accent-gold); color: var(--bg-primary); width: 100%; margin-top: 1rem;"> Adjust Team Scores</button>
+                    <button class="btn-secondary" id="btn-menu-reset" style="flex: 1; font-size: 1.2rem; padding: 1rem; background: var(--accent-gold); color: var(--bg-primary); width: 100%; margin-top: 1rem;"> Reset All Scores</button>
+                <!-- NEW: Standings Button on Menu -->
+            </div>
+        </div>
+    </section>
+
+    
+                </div>
+
+    <!-- Question Screen -->
+    <section id="proj-question" class="screen">
+        <header class="question-header">
+            <div class="header-left">
+                <h3 class="header-title">Think Quest</h3>
+                <span id="proj-round-name" class="badge"></span>
+            </div>
+            <div class="header-right">
+                <span id="proj-progress" class="badge"></span>
+                <span id="proj-points" class="badge pts-badge"></span>
+            </div>
+        </header>
+
+        <div class="question-content">
+            <h2 id="proj-question-text" class="question-text" style="font-size: 3rem; margin-bottom: 1.5rem;"></h2>
+            
+            <!-- MCQ Options -->
+            <div id="proj-options-container" class="options-grid" style="max-width: 900px; margin: 0 auto;">
+                <div class="proj-option" id="proj-opt-A"><span class="opt-label">A</span> <span class="opt-text"></span></div>
+                <div class="proj-option" id="proj-opt-B"><span class="opt-label">B</span> <span class="opt-text"></span></div>
+                <div class="proj-option" id="proj-opt-C"><span class="opt-label">C</span> <span class="opt-text"></span></div>
+                <div class="proj-option" id="proj-opt-D"><span class="opt-label">D</span> <span class="opt-text"></span></div>
+            </div>
+
+            <!-- Massive Answer & Team Responses Reveal (Hidden until revealed) -->
+            <div id="proj-reveal-container" class="hidden" style="width: 100%; margin-top: 1rem;">
+                <div style="display: flex; gap: 3rem; justify-content: center; align-items: stretch; max-width: 1600px; margin: 0 auto; text-align: left;">
+                    
+                    <!-- Left Column: Correct Answer & Explanation -->
+                    <div style="flex: 1; display: flex; flex-direction: column; gap: 1.5rem;">
+                        <div style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 12px; border: 2px solid var(--correct-green);">
+                            <h3 style="color: var(--correct-green); font-size: 1.8rem; text-transform: uppercase; margin-bottom: 0.5rem;">Correct Answer:</h3>
+                            <p id="proj-correct-ans" style="font-size: 2.8rem; font-weight: bold; color: white; margin: 0;"></p>
+                        </div>
+                        <div style="flex: 1; background: var(--bg-panel); padding: 2rem; border-left: 8px solid var(--accent-gold); border-radius: 12px;">
+                            <h4 style="color: var(--accent-gold); font-size: 1.6rem; margin-bottom: 1rem;">Explanation:</h4>
+                            <p id="proj-explanation" style="font-size: 1.8rem; line-height: 1.5;"></p>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Massive Team Responses Board -->
+                    <div style="width: 550px; background: var(--bg-panel); padding: 2rem; border-radius: 12px; border: 3px solid var(--accent-gold); display: flex; flex-direction: column;">
+                        <h3 style="color: var(--text-main); font-size: 2rem; margin-bottom: 1.5rem; text-align: center; border-bottom: 2px solid var(--bg-secondary); padding-bottom: 1rem;">Team Responses</h3>
+                        <div id="proj-team-results-list" style="display: flex; flex-direction: column; gap: 1rem; overflow-y: auto; max-height: 450px; flex: 1;">
+                            <!-- Dynamically populated -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="timer-section" id="proj-timer-wrapper">
+            <div class="progress-bar-container" style="max-width: 1000px; height: 20px;"><div id="proj-timer-progress" class="progress-bar"></div></div>
+            <div id="proj-timer-display" class="timer-display" style="font-size: 8rem;">00</div>
+        </div>
+
+        <!-- Controls -->
+        <div class="projector-controls">
+            <button class="btn-secondary" id="btn-proj-home">Home</button>
+            <button class="btn-secondary" id="btn-proj-prev">◄ Prev</button>
+            <button class="btn-primary" id="btn-proj-timer">Start Timer (Space)</button>
+            <button class="btn-warning" id="btn-proj-reveal">Reveal Answer (A)</button>
+            <button class="btn-primary" id="btn-proj-leaderboard" style="background: var(--accent-gold); color: var(--bg-primary);">Show Round Leaderboard</button>
+            <button class="btn-secondary" id="btn-proj-next">Next ►</button>
+        </div>
+    </section>
+
+    <!-- End of Round Leaderboard Screen -->
+    <section id="proj-leaderboard-screen" class="screen hidden">
+        <div class="center-container" style="max-width: 1000px; margin: 0 auto; padding-top: 4rem;">
+            <h1 class="main-title" style="font-size: 4rem; margin-bottom: 1rem;">Round Leaderboard</h1>
+            <h2 id="lb-round-title" class="sub-title" style="font-size: 2rem; margin-bottom: 2rem; color: var(--accent-gold);"></h2>
+            
+            <div style="background: var(--bg-panel); border-radius: 12px; border: 3px solid var(--accent-gold); overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 1.8rem;">
+                    <thead>
+                        <tr style="background: var(--bg-secondary); color: var(--accent-gold); border-bottom: 2px solid var(--accent-gold);">
+                            <th style="padding: 1.5rem; text-align: center; width: 100px;">Rank</th>
+                            <th style="padding: 1.5rem;">Team Name</th>
+                            <th style="padding: 1.5rem; text-align: right;">Total Score</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lb-table-body">
+                        <!-- Sorted scores populated here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin-top: 3rem; display: flex; justify-content: center; gap: 2rem;">
+                <button class="btn-secondary" id="btn-lb-back" style="font-size: 1.5rem; padding: 1rem 2rem;">Back to Questions</button>
+            </div>
+        </div>
+    </section>
+
+<!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
+        import { getDatabase, ref, set, onValue, update, get } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAEgjk2vf89wsmM2prwk_I6Qn2f6DQLrQg",
+            authDomain: "think-quest-quiz-master.firebaseapp.com",
+            databaseURL: "https://think-quest-quiz-master-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "think-quest-quiz-master",
+            storageBucket: "think-quest-quiz-master.firebasestorage.app",
+            messagingSenderId: "435785949468",
+            appId: "1:435785949468:web:17798b2405af40b6735ad9"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        
+        window.db = db;
+        window.ref = ref;
+        window.set = set;
+        window.onValue = onValue;
+        window.update = update;
+        window.get = get;
+    </script>
+
+    <!-- Scripts -->
+    <script src="js/questions.sample.js"></script>
+    <script src="js/questions.js"></script>
+    <script src="js/projector.js"></script>
+</body>
+</html>
